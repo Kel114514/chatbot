@@ -1,0 +1,2 @@
+# bot
+ personal qq charbot 
