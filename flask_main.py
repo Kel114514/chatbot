@@ -2,6 +2,7 @@ from flask import Flask, request
 import requests
 from queue import Queue
 import setu
+import communicator
 
 
 # CQ docs at https://docs.go-cqhttp.org/cqcode/
@@ -38,30 +39,25 @@ def post_data():
     elif message=='色图':
         send(setu.get_setu())
     else:
-        send(message)
+        pass
+        # send(message)
     return 'OK'
 
 
 
-def send(message):
+def send(message, user: communicator.User=communicator.ME, params: dict={}):
     url=r'http://127.0.0.1:5700/send_msg'
     # data=request.get_json()
-    params={
-        'message_type ':'private',
-        'user_id':1482516617,
-        'message':message
-    }
+    # params={
+    #     'message_type ':'private',
+    #     'user_id':1482516617,
+    #     'message':message
+    # }
+    params.update(user.get_reply_header())
+    params.update({'message': message})
     requests.get(url, params=params)
 
 
-def get_setu():
-    try:
-        request_url='http://www.dmoe.cc/random.php'
-        params = {'return': 'json'}
-        imgurl=requests.get(request_url, params=params).json()['imgurl']
-        return f'[CQ:image,file={imgurl}]'
-    except:
-        return '色图寄了'
 
 
 if __name__=='__main__':

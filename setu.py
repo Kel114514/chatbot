@@ -1,7 +1,7 @@
 import requests
 
 def _yh_api():
-    #backup setu api
+    # backup setu api, poor quality
     # from https://www.cnblogs.com/ghgxj/p/14219047.html
     url='http://www.dmoe.cc/random.php'
     params = {'return': 'json'}
@@ -15,8 +15,8 @@ def _lolicon_api(**kwargs):
     return res.json()['data'][0]['urls']['original']
 
 
-def get_setu():
+def get_setu(**kwargs):
     try:
-        return f'[CQ:image,file={_lolicon_api()}]'
+        return f'[CQ:image,file={_lolicon_api(**kwargs)}]'
     except:
         return '色图寄了'
